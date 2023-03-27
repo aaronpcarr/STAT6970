@@ -78,3 +78,60 @@ accuracy_score(ypred4, test_labels)
 
 misclassified4 = np.where(test_labels != ypred4)
 misclassified4
+
+
+#Filter out comments that are replies to see 
+#if accuracy score will improve
+noreply = data[['Comment','stemmed_comments','Club','Reply']]
+noreply = noreply.loc[noreply["Reply"] == "No"]
+noreply = noreply.rename(columns={'stemmed_comments': 'Stem'})
+
+from sklearn.model_selection import train_test_split
+commentr = noreply['Comment'].values
+stemr = noreply["Stem"].values
+yr = noreply["Club"].values
+commentr_train, commentr_test, stemr_train, stemr_test, trainr_labels, testr_labels = train_test_split(commentr, stemr, yr, test_size = 0.20, random_state = 1)
+
+from sklearn.feature_extraction.text import CountVectorizer
+vectorizer = CountVectorizer()
+vectorizer.fit(stemr_train)
+vectorizer.vocabulary_
+
+commentr_train_feature = vectorizer.transform(stemr_train)
+commentr_test_feature = vectorizer.transform(stemr_test)
+
+from sklearn.linear_model import LogisticRegression
+modelr = LogisticRegression()
+modelr.fit(commentr_train_feature, trainr_labels)
+ypredr = model.predict(commentr_test_feature)
+
+from sklearn.metrics import accuracy_score
+accuracy_score(ypredr, testr_labels)
+
+from sklearn.tree import DecisionTreeClassifier
+modelr2 = DecisionTreeClassifier(max_depth=10)
+modelr2.fit(commentr_train_feature, trainr_labels)
+ypredr2 = modelr2.predict(commentr_test_feature)
+
+accuracy_score(ypredr2, testr_labels)
+
+from sklearn.ensemble import RandomForestClassifier
+modelr3 = RandomForestClassifier(n_estimators = 100, random_state = 1)
+modelr3.fit(commentr_train_feature, trainr_labels)
+ypredr3 = modelr3.predict(commentr_test_feature)
+
+accuracy_score(ypredr3, testr_labels)
+
+from sklearn.ensemble import GradientBoostingClassifier
+modelr4 = GradientBoostingClassifier(
+        max_depth = 4,
+        n_estimators = 10,
+        learning_rate = 1,
+        random_state = 1
+)
+
+modelr4.fit(commentr_train_feature, trainr_labels)
+
+ypredr4 = modelr4.predict(commentr_test_feature)
+
+accuracy_score(ypredr4, testr_labels)
