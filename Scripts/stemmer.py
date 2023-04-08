@@ -24,3 +24,22 @@ comments['stemmed_comments'] = comments['tokenized_comments'].apply(stem)
 comments.to_csv("\STAT6970\BigSix_Tokenized.csv", index = False)
 
 print(comments['stemmed_comments'])
+
+comments = pd.read_csv('BigSixMarch.csv')
+#Remove removed or deleted comments
+comments = comments[~comments['Comment'].isin(['Deleted', 'Removed'])]
+comments['tokenized_comments'] = comments['Comment'].apply(tokenize)
+comments['stemmed_comments'] = comments['tokenized_comments'].apply(stem)
+comments.to_csv("BigSixMarch_Tokenized.csv", index = False)
+
+print(comments['stemmed_comments'])
+
+
+comments = pd.read_csv('BigSixApril.csv')
+#Remove removed or deleted comments
+comments = comments[~comments['Comment'].isin(['Deleted', 'Removed'])]
+comments['tokenized_comments'] = comments['Comment'].apply(tokenize)
+comments['stemmed_comments'] = comments['tokenized_comments'].apply(stem)
+comments.to_csv("BigSixApril_Tokenized.csv", index = False)
+
+print(comments['stemmed_comments'])
