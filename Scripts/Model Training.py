@@ -55,7 +55,7 @@ misclassified2
 from sklearn.ensemble import RandomForestClassifier
 model3 = RandomForestClassifier(n_estimators = 100, random_state = 1)
 model3.fit(comment_train_feature, train_labels)
-ypred3 = model2.predict(comment_test_feature)
+ypred3 = model3.predict(comment_test_feature)
 
 accuracy_score(ypred3, test_labels)
 
