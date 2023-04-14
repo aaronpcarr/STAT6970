@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-data = pd.read_csv("BigSixMarch_Tokenized.csv")
+data = pd.read_csv("BigSix_Tokenized.csv")
 
 bigsix = data[['Comment','stemmed_comments','Club']]
 
