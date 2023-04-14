@@ -34,7 +34,7 @@ ypred = model.predict(comment_test_feature)
 
 from sklearn.metrics import accuracy_score
 accuracy_score(ypred, test_labels)
-print("Log Reg with Comments:", accuracy_score(ypred, test_labels))
+print("Log Reg with Rwplies:", accuracy_score(ypred, test_labels))
 
 misclassified = np.where(test_labels != ypred)
 misclassified
@@ -43,13 +43,18 @@ test_labels[5]
 ypred[5]
 comment_test[5]
 
+coefficients = model.coef_
+feature_names = vectorizer.get_feature_names()
+coef_df = pd.DataFrame(coefficients, columns=feature_names, index=model.classes_)
+coef_df.to_csv("model_coefficients.csv")
+
 from sklearn.tree import DecisionTreeClassifier
 model2 = DecisionTreeClassifier(max_depth=10)
 model2.fit(comment_train_feature, train_labels)
 ypred2 = model2.predict(comment_test_feature)
 
 accuracy_score(ypred2, test_labels)
-print("Decision Tree with Comments:", accuracy_score(ypred2, test_labels))
+print("Decision Tree with Replies:", accuracy_score(ypred2, test_labels))
 
 misclassified2 = np.where(test_labels != ypred2)
 misclassified2
@@ -60,7 +65,7 @@ model3.fit(comment_train_feature, train_labels)
 ypred3 = model3.predict(comment_test_feature)
 
 accuracy_score(ypred3, test_labels)
-print("Random Forest with Comments:", accuracy_score(ypred3, test_labels))
+print("Random Forest with Replies:", accuracy_score(ypred3, test_labels))
 
 misclassified3 = np.where(test_labels != ypred3)
 misclassified3
@@ -78,7 +83,7 @@ model4.fit(comment_train_feature, train_labels)
 ypred4 = model4.predict(comment_test_feature)
 
 accuracy_score(ypred4, test_labels)
-print("GradientBossting with Comments:", accuracy_score(ypred4, test_labels))
+print("GradientBossting with Replies:", accuracy_score(ypred4, test_labels))
 
 misclassified4 = np.where(test_labels != ypred4)
 misclassified4
@@ -111,7 +116,7 @@ ypredr = modelr.predict(commentr_test_feature)
 
 from sklearn.metrics import accuracy_score
 accuracy_score(ypredr, testr_labels)
-print("Log Reg w/o Comments:", accuracy_score(ypredr, testr_labels))
+print("Log Reg w/o Replies:", accuracy_score(ypredr, testr_labels))
 
 from sklearn.tree import DecisionTreeClassifier
 modelr2 = DecisionTreeClassifier(max_depth=10)
@@ -119,7 +124,7 @@ modelr2.fit(commentr_train_feature, trainr_labels)
 ypredr2 = modelr2.predict(commentr_test_feature)
 
 accuracy_score(ypredr2, testr_labels)
-print("Decision Tree w/o Comments:", accuracy_score(ypredr2, testr_labels))
+print("Decision Tree w/o Replies:", accuracy_score(ypredr2, testr_labels))
 
 from sklearn.ensemble import RandomForestClassifier
 modelr3 = RandomForestClassifier(n_estimators = 100, random_state = 1)
@@ -127,7 +132,7 @@ modelr3.fit(commentr_train_feature, trainr_labels)
 ypredr3 = modelr3.predict(commentr_test_feature)
 
 accuracy_score(ypredr3, testr_labels)
-print("RandomForest w/o Comments:", accuracy_score(ypredr3, testr_labels))
+print("RandomForest w/o Replies:", accuracy_score(ypredr3, testr_labels))
 
 from sklearn.ensemble import GradientBoostingClassifier
 modelr4 = GradientBoostingClassifier(
@@ -142,10 +147,4 @@ modelr4.fit(commentr_train_feature, trainr_labels)
 ypredr4 = modelr4.predict(commentr_test_feature)
 
 accuracy_score(ypredr4, testr_labels)
-print("GradientBoosting w/o Comments:", accuracy_score(ypredr4, testr_labels))
-
-
-coefficients = modelr.coef_
-feature_names = vectorizer.get_feature_names_out()
-coef_df = pd.DataFrame(coefficients, columns=feature_names, index=modelr.classes_)
-coef_df.to_csv("model_coefficients.csv")
+print("GradientBoosting w/o Replies:", accuracy_score(ypredr4, testr_labels))
