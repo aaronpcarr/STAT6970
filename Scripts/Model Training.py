@@ -28,13 +28,13 @@ comment_train_feature.shape
 comment_test_feature.shape
 
 from sklearn.linear_model import LogisticRegression
-model = LogisticRegression(max_iter=1000)
+model = LogisticRegression(class_weight='balanced', max_iter=1000)
 model.fit(comment_train_feature, train_labels)
 ypred = model.predict(comment_test_feature)
 
 from sklearn.metrics import accuracy_score
 accuracy_score(ypred, test_labels)
-print("Log Reg with Rwplies:", accuracy_score(ypred, test_labels))
+print("Log Reg with Replies:", accuracy_score(ypred, test_labels))
 
 misclassified = np.where(test_labels != ypred)
 misclassified
@@ -44,12 +44,12 @@ ypred[5]
 comment_test[5]
 
 coefficients = model.coef_
-feature_names = vectorizer.get_feature_names()
+feature_names = vectorizer.get_feature_names_out()
 coef_df = pd.DataFrame(coefficients, columns=feature_names, index=model.classes_)
 coef_df.to_csv("model_coefficients.csv")
 
 from sklearn.tree import DecisionTreeClassifier
-model2 = DecisionTreeClassifier(max_depth=10)
+model2 = DecisionTreeClassifier(class_weight='balanced', max_depth=10)
 model2.fit(comment_train_feature, train_labels)
 ypred2 = model2.predict(comment_test_feature)
 
@@ -60,7 +60,7 @@ misclassified2 = np.where(test_labels != ypred2)
 misclassified2
 
 from sklearn.ensemble import RandomForestClassifier
-model3 = RandomForestClassifier(n_estimators = 100, random_state = 1)
+model3 = RandomForestClassifier(class_weight='balanced', n_estimators = 100, random_state = 1)
 model3.fit(comment_train_feature, train_labels)
 ypred3 = model3.predict(comment_test_feature)
 
@@ -110,7 +110,7 @@ commentr_train_feature = vectorizer.transform(stemr_train)
 commentr_test_feature = vectorizer.transform(stemr_test)
 
 from sklearn.linear_model import LogisticRegression
-modelr = LogisticRegression(max_iter=1000)
+modelr = LogisticRegression(class_weight='balanced', max_iter=1000)
 modelr.fit(commentr_train_feature, trainr_labels)
 ypredr = modelr.predict(commentr_test_feature)
 
@@ -119,7 +119,7 @@ accuracy_score(ypredr, testr_labels)
 print("Log Reg w/o Replies:", accuracy_score(ypredr, testr_labels))
 
 from sklearn.tree import DecisionTreeClassifier
-modelr2 = DecisionTreeClassifier(max_depth=10)
+modelr2 = DecisionTreeClassifier(class_weight='balanced', max_depth=10)
 modelr2.fit(commentr_train_feature, trainr_labels)
 ypredr2 = modelr2.predict(commentr_test_feature)
 
@@ -127,7 +127,7 @@ accuracy_score(ypredr2, testr_labels)
 print("Decision Tree w/o Replies:", accuracy_score(ypredr2, testr_labels))
 
 from sklearn.ensemble import RandomForestClassifier
-modelr3 = RandomForestClassifier(n_estimators = 100, random_state = 1)
+modelr3 = RandomForestClassifier(class_weight='balanced', n_estimators = 100, random_state = 1)
 modelr3.fit(commentr_train_feature, trainr_labels)
 ypredr3 = modelr3.predict(commentr_test_feature)
 
