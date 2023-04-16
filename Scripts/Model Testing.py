@@ -22,6 +22,22 @@ accuracy_score(mancity_pred, test_labels[np.where(test_labels == "Manchester Cit
 accuracy_score(manutd_pred, test_labels[np.where(test_labels == "Manchester United")])
 accuracy_score(spurs_pred, test_labels[np.where(test_labels == "Spurs")])
 
+#Accuracy Score by Club for Decision Tree Model
+arsenal_pred2 = model2.predict(arsenal_test)
+chelsea_pred2 = model2.predict(chelsea_test)
+liverpool_pred2 = model2.predict(liverpool_test)
+mancity_pred2 = model2.predict(mancity_test)
+manutd_pred2 = model2.predict(manutd_test)
+spurs_pred2 = model2.predict(spurs_test)
+
+accuracy_score(arsenal_pred2, test_labels[np.where(test_labels == "Arsenal")])
+accuracy_score(chelsea_pred2, test_labels[np.where(test_labels == "Chelsea")])
+accuracy_score(liverpool_pred2, test_labels[np.where(test_labels == "Liverpool")])
+accuracy_score(mancity_pred2, test_labels[np.where(test_labels == "Manchester City")])
+accuracy_score(manutd_pred2, test_labels[np.where(test_labels == "Manchester United")])
+accuracy_score(spurs_pred2, test_labels[np.where(test_labels == "Spurs")])
+
+
 #Accuracy Score by Club for Random Forest Model
 arsenal_pred3 = model3.predict(arsenal_test)
 chelsea_pred3 = model3.predict(chelsea_test)
@@ -85,6 +101,13 @@ april_pred = model.predict(april_test)
 
 accuracy_score(march_pred,march["Club"])
 accuracy_score(april_pred,april["Club"])
+
+march_pred2 = model2.predict(march_test)
+april_pred2 = model2.predict(april_test)
+
+accuracy_score(march_pred2,march["Club"])
+accuracy_score(april_pred2,april["Club"])
+
 
 march_pred3 = model3.predict(march_test)
 april_pred3 = model3.predict(april_test)

@@ -49,7 +49,7 @@ coef_df = pd.DataFrame(coefficients, columns=feature_names, index=model.classes_
 coef_df.to_csv("model_coefficients.csv")
 
 from sklearn.tree import DecisionTreeClassifier
-model2 = DecisionTreeClassifier(class_weight='balanced', max_depth=10)
+model2 = DecisionTreeClassifier(class_weight='balanced', max_depth=100)
 model2.fit(comment_train_feature, train_labels)
 ypred2 = model2.predict(comment_test_feature)
 
@@ -150,7 +150,7 @@ accuracy_score(ypredr, testr_labels)
 print("Log Reg w/o Replies:", accuracy_score(ypredr, testr_labels))
 
 from sklearn.tree import DecisionTreeClassifier
-modelr2 = DecisionTreeClassifier(class_weight='balanced', max_depth=10)
+modelr2 = DecisionTreeClassifier(class_weight='balanced', max_depth=100)
 modelr2.fit(commentr_train_feature, trainr_labels)
 ypredr2 = modelr2.predict(commentr_test_feature)
 
@@ -172,8 +172,16 @@ modelr4 = GradientBoostingClassifier(
         learning_rate = 1,
         random_state = 1
 )
+weightsr = compute_class_weight(class_weight='balanced',classes = np.unique(trainr_labels),y = trainr_labels)
+sample_weightsr = np.zeros(len(stemr_train))
+sample_weightsr[trainr_labels == "Arsenal"] = weights[0]
+sample_weightsr[trainr_labels == "Chelsea"] = weights[1]
+sample_weightsr[trainr_labels == "Liverpool"] = weights[2]
+sample_weightsr[trainr_labels == "Manchester City"] = weights[3]
+sample_weightsr[trainr_labels == "Manchester United"] = weights[4]
+sample_weightsr[trainr_labels == "Spurs"] = weights[5]
 
-modelr4.fit(commentr_train_feature, trainr_labels)
+modelr4.fit(commentr_train_feature, trainr_labels,sample_weight = sample_weightsr)
 
 ypredr4 = modelr4.predict(commentr_test_feature)
 
