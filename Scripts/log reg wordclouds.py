@@ -42,6 +42,8 @@ positive_wordcloud.generate_from_frequencies(positive_normalized_coefficients)
 
 plt.figure(figsize=(10, 10))
 plt.imshow(positive_wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 #Liverpool
 class_index = 2
@@ -59,6 +61,8 @@ positive_wordcloud.generate_from_frequencies(positive_normalized_coefficients)
 
 plt.figure(figsize=(10, 10))
 plt.imshow(positive_wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 #Manchester City
 class_index = 3
@@ -76,6 +80,8 @@ positive_wordcloud.generate_from_frequencies(positive_normalized_coefficients)
 
 plt.figure(figsize=(10, 10))
 plt.imshow(positive_wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 #Manchester United
 class_index = 4
@@ -93,6 +99,8 @@ positive_wordcloud.generate_from_frequencies(positive_normalized_coefficients)
 
 plt.figure(figsize=(10, 10))
 plt.imshow(positive_wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 #Spurs
 class_index = 5
@@ -110,6 +118,8 @@ positive_wordcloud.generate_from_frequencies(positive_normalized_coefficients)
 
 plt.figure(figsize=(10, 10))
 plt.imshow(positive_wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
 
 negative_coefficients = {k: v for k, v in zip(feature_names, coefficients) if v < 0}
 negative_normalized_coefficients = {k: v / np.sum(list(negative_coefficients.values())) for k, v in negative_coefficients.items()}
