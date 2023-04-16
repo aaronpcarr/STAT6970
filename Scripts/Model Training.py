@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-data = pd.read_csv("BigSix_Tokenized.csv")
+data = pd.read_csv("Scripts\BigSix_Tokenized.csv")
 
 bigsix = data[['Comment','stemmed_comments','Club']]
 
@@ -83,10 +83,30 @@ model4.fit(comment_train_feature, train_labels)
 ypred4 = model4.predict(comment_test_feature)
 
 accuracy_score(ypred4, test_labels)
-print("GradientBossting with Replies:", accuracy_score(ypred4, test_labels))
+print("GradientBoosting with Replies:", accuracy_score(ypred4, test_labels))
 
 misclassified4 = np.where(test_labels != ypred4)
 misclassified4
+
+import xgboost as xgb
+from sklearn.utils import compute_class_weight
+from sklearn.preprocessing import LabelEncoder
+
+label_encoder = LabelEncoder()
+encoded_train_labels = label_encoder.fit_transform(train_labels)
+encoded_test_labels = label_encoder.transform(test_labels)
+
+class_weights = compute_class_weight(class_weight='balanced',
+        classes=np.unique(encoded_train_labels),
+        y=encoded_train_labels)
+weights = {club : weight for club, weight in zip(np.unique(encoded_train_labels), class_weights)}
+model5 = xgb.XGBClassifier(random_state=1)
+weights_array = np.array([weights[club] for club in encoded_train_labels])
+model5.fit(comment_train_feature, encoded_train_labels, sample_weight=weights_array)
+ypred5 = model5.predict(comment_test_feature)
+
+accuracy_score(ypred5, encoded_test_labels)
+print("XGB w Replies:", accuracy_score(ypred5, encoded_test_labels))
 
 
 #Filter out comments that are replies to see 
@@ -148,3 +168,21 @@ ypredr4 = modelr4.predict(commentr_test_feature)
 
 accuracy_score(ypredr4, testr_labels)
 print("GradientBoosting w/o Replies:", accuracy_score(ypredr4, testr_labels))
+
+labelr_encoder = LabelEncoder()
+encoded_trainr_labels = label_encoder.fit_transform(trainr_labels)
+encoded_testr_labels = label_encoder.transform(testr_labels)
+
+class_weightsr = compute_class_weight(class_weight='balanced',
+        classes=np.unique(encoded_trainr_labels),
+        y=encoded_trainr_labels)
+weightsr = {club : weight for club, weight in zip(np.unique(encoded_trainr_labels), class_weightsr)}
+modelr5 = xgb.XGBClassifier(random_state=1)
+weightsr_array = np.array([weightsr[club] for club in encoded_trainr_labels])
+modelr5.fit(commentr_train_feature, encoded_trainr_labels, sample_weight=weightsr_array)
+ypredr5 = modelr5.predict(commentr_test_feature)
+
+accuracy_score(ypredr5, encoded_testr_labels)
+print("XGBoost w/o Replies:", accuracy_score(ypredr5, encoded_testr_labels))
+
+
