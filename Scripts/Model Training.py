@@ -78,7 +78,18 @@ model4 = GradientBoostingClassifier(
         random_state = 1
 )
 
-model4.fit(comment_train_feature, train_labels)
+from sklearn.utils import compute_class_weight
+weights = compute_class_weight(class_weight='balanced',classes = np.unique(train_labels),y = train_labels)
+sample_weights = np.zeros(len(stem_train))
+sample_weights[train_labels == "Arsenal"] = weights[0]
+sample_weights[train_labels == "Chelsea"] = weights[1]
+sample_weights[train_labels == "Liverpool"] = weights[2]
+sample_weights[train_labels == "Manchester City"] = weights[3]
+sample_weights[train_labels == "Manchester United"] = weights[4]
+sample_weights[train_labels == "Spurs"] = weights[5]
+    
+
+model4.fit(comment_train_feature, train_labels,sample_weight= sample_weights)
 
 ypred4 = model4.predict(comment_test_feature)
 
